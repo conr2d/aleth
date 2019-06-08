@@ -142,8 +142,11 @@ void BlockQueue::verifierBody()
             }
             else
             {
+                auto preKnownSize = knownSize();
                 if (!m_verifying.replace(work.hash, move(res)))
                     cwarn << "BlockQueue missing our job: was there a GM?";
+                auto postKnownSize = knownSize();
+                assert(preKnownSize < postKnownSize);
             }
         }
         if (ready)
